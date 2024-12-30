@@ -4,26 +4,26 @@ import "testing"
 
 func TestShorten(t *testing.T) {
 	s := NewShortener()
-	id, err := s.Shorten("https://google.com")
+	url, err := s.Shorten("https://google.com")
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-	if id == "" {
+	if url.ID == "" {
 		t.Errorf("expected id to be non-empty")
 	}
 }
 
 func TestGetURL(t *testing.T) {
 	s := NewShortener()
-	id, err := s.Shorten("https://google.com")
+	url, err := s.Shorten("https://google.com")
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-	url, err := s.GetURL(id)
+	initialUrl, err := s.GetURL(url.ID, false)
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-	if url != "https://google.com" {
-		t.Errorf("expected url to be https://google.com, got %s", url)
+	if initialUrl.OriginalURL != "https://google.com" {
+		t.Errorf("expected url to be https://google.com, got %s", url.OriginalURL)
 	}
 }
